@@ -70,7 +70,7 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
-      - image: prom/mysqld-exporter
+      - image: prom/mysqld-exporter:v0.12.1
         name: prom-mysql
         env:
         - name: MYSQL_USER 

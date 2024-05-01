@@ -171,7 +171,7 @@ You can use the following snippet to add a sidecar container to the mysql contai
         ...
         ports:
         - containerPort: 9104
-          name: mysqld-exporter
+          name: mysqld-exporter:v0.12.1
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:

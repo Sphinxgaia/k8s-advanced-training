@@ -164,7 +164,7 @@ You can use the following snippet to add a sidecar container to the mysql contai
       - name: mysql
         # Sidecar container
       - name: prom-mysql
-        image: prom/mysqld-exporter
+        image: prom/mysqld-exporter:v0.12.1
         env:
          # Configure the container to connect to the mysql container.
          # Expected environment variable name is DATA_SOURCE_NAME

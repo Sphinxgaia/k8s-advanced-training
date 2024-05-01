@@ -81,10 +81,18 @@ kubectl get pods -l role=replica
 ## Create a DB backup
 In order to save the backup we will deploy a minio s3 server
 ```sh
-helm repo add minio https://helm.min.io/
+helm repo add minio https://operator.min.io
 helm repo update
-helm install minio --set accessKey=myaccesskey,secretKey=mysecretkey,resources.requests.memory=1G,defaultBucket.enabled=true,defaultBucket.name=mysql  minio/minio
+helm install minio --set accessKey=myaccesskey,secretKey=mysecretkey,resources.requests.memory=1G,defaultBucket.enabled=true,defaultBucket.name=mysql  minio/operator
 ```
+
+```sh
+helm install --set accessKey=myaccesskey,secretKey=mysecretkey
+  --namespace default \
+  minio-tenant minio-operator/tenant
+```
+
+
 Then we create the secret to access minio server
 ```sh
 kubectl apply -f backup-secret.yaml
@@ -99,10 +107,16 @@ Check the backup was successful
 kubectl describe mysqlbackup
 ```
 
+
+
 Verify in minio
 
 ```sh
 export POD_NAME=$(kubectl get pods --namespace default -l "release=minio" -o jsonpath="{.items[0].metadata.name}")
+
+
+kubectl get secret/console-sa-secret -n minio-operator -o json | jq -r ".data.token" | base64 -d
+
 kubectl port-forward --address 0.0.0.0 $POD_NAME 9000
 ```
 
